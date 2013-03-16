@@ -1,0 +1,88 @@
+// @@.alias ( query )
+
+Let(  [
+	tab = Char ( 9 ) ; cap = 99999 ;
+
+	// PARSE TABLE CLAUSES TO ENABLE PROCESSING
+	// set identification key. We expect all incoming aliases to be commented out like this.
+	keyStartALIAS = " /* AS=>"; keyStartLengthALIAS = Length ( keyStartALIAS) ;
+	keyEndALIAS = " */" ; keyEndLengthALIAS = Length ( keyEndALIAS  ) ;
+
+	// get start and end positions of FROM clause
+	anchorStartFROM = Position ( query ; " FROM " ; 1 ; 1 ) ;
+	anchorWHERE = Position ( query ; " WHERE " ; 1 ; 1 ) ; anchorWHERE = If ( anchorWHERE ; anchorWHERE ; cap ) ;
+	anchorORDER = Position ( query ; " ORDER BY " ; 1 ; 1 ) ; anchorORDER = If ( anchorORDER ; anchorORDER ; cap ) ;
+	anchorGROUP = Position ( query ; " GROUP BY " ; 1 ; 1 ) ; anchorGROUP = If ( anchorGROUP ; anchorGROUP ; cap ) ;
+	anchorEndFROM = Min ( anchorWHERE ; anchorORDER ; anchorGROUP ; cap ) ;
+
+	// separate query into SELECT, FROM, and RIGHT substrings
+	// :: todo :: parse the WHERE clause separately for future column alias handling
+	clauseSELECT = Left ( query ; anchorStartFROM-1 ) ;
+	clauseFROM = Middle ( query ; anchorStartFROM ; anchorEndFROM - anchorStartFROM ) ;
+	clauseRIGHT = If ( anchorEndFROM = cap ; "" ;
+		Middle ( query ; anchorEndFROM  ; cap )
+	) ;
+
+	// set flags
+	hasOneAlias = PatternCount ( clauseFROM ; keyStartALIAS ) = 1 ;
+	hasMultipleAliases = PatternCount ( clauseFROM ; keyStartALIAS ) > 1 ;
+
+	// RETRIEVE THE FIRST ALIAS AND ITS MATCHING TABLE
+	// get first alias
+	anchorALIAS = Position ( clauseFROM ; keyStartALIAS ; 1 ; 1 ) ;
+	clauseALIAS = Middle ( clauseFROM ; anchorALIAS + keyStartLengthALIAS ; cap ) ;
+	alias = Trim ( Left (
+		clauseALIAS ;
+		Position (
+			clauseALIAS ;
+			keyEndALIAS ;
+			1 ; 1
+		)
+	) ) ;
+
+	// and get its table
+	clauseTABLE = Left ( clauseFROM ; anchorALIAS ) ;
+	anchorTABLE = Max (
+			Position ( clauseTABLE ; " FROM " ; 1 ; 1 ) ;
+			Position ( clauseTABLE ; " JOIN " ; 1 ; 1 ) ;
+		) ;
+	clauseTABLE  = Middle ( clauseTABLE ; anchorTABLE ; cap ) ;
+	table = MiddleWords ( clauseTABLE ; 2 ; cap ) ;
+
+	// INSERT TABLE ALIAS INTO SQL CLAUSES
+	// remove the alias comment wrapper
+	aliasString = keyStartALIAS & alias & keyEndALIAS ;
+	queryProcessed = Substitute (
+		query ;
+		aliasString ;
+		" AS " & alias & " "
+	) ;
+
+	// substitute the alias for the table name in all table.field references
+	queryProcessed = Substitute (
+		queryProcessed ;
+		[ " " & table & "."  ;  " " & alias & "." ]  ;
+		[ "\"" & table & "\"." ; alias & "." ]
+	) ;
+
+	// RETURN RESULTS AND CONTINUE AS NEEDED
+
+	result = Case (
+		hasOneAlias ;
+			queryProcessed ;
+		hasMultipleAliases ;
+			@@.alias ( queryProcessed ) ;
+		query
+	)
+
+	] ;
+
+result
+
+)
+
+/*・・・・・・・・・・・・・・・・・・・・・・・・
+Copyright (c) Brian Schick, 2013.
+For help, inline tutorial, and open source license info, call this function itself, lke so:
+@ ( "" ; "?" )
+・・・・・・・・・・・・・・・・・・・・・・・・*/

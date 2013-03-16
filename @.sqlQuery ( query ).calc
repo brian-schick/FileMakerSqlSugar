@@ -1,0 +1,93 @@
+// @.sqlQuery ( query )
+
+Let ( [
+	tab = Char ( 9 ) ; cap = 99999 ; delimiter = "<{:}>" ;
+
+	// pad ¶and tab chars with spaces to ease pattern matching
+	paddedQuery = Substitute (
+		query ;
+		[ "¶" ; " ¶ " ] ;
+		[ "," ; " , " ] ;
+		[ tab; " " & tab & " " ]
+	) ;
+
+	// determine query type and if it's "simple" (doesn't contain nested subclauses and has only a single FROM table)
+	isSelectQuery = LeftWords ( paddedQuery ; 1 ) = "SELECT"  and
+		PatternCount ( paddedQuery ; " FROM " ) ;
+	isNestedSelectQuery = isSelectQuery and (
+		PatternCount ( paddedQuery ; " SELECT " ) > 1 or
+		PatternCount ( paddedQuery ; " INSERT " ) or
+		PatternCount ( paddedQuery ; " UPDATE " ) or
+		PatternCount ( paddedQuery ; " DELETE " )
+	) ;
+	isSimpleSelectQuery = not isNestedSelectQuery and not PatternCount ( paddedQuery ; " JOIN " ) ;
+	willReduce = isSelectQuery and isSimpleSelectQuery and not isNestedSelectQuery ;
+
+	//  REMOVING  COLUMN LEADING TABLE DOT NOMENCLATURE FROM SIMPLE TABLES
+
+	// extract the query's FROM clause
+	fromQueryBegin = If ( not willReduce ; "" ;
+		Middle (
+			paddedQuery ;
+			Position ( paddedQuery ; " FROM " ; 1 ; 1 ) ;
+			cap
+		)
+	) ;
+	fromQueryEnd = If ( not willReduce ; "" ;
+		Case (
+			PatternCount ( fromQueryBegin ; " WHERE " ) ; Position ( fromQueryBegin ; " WHERE " ; 1 ; 1 ) ;
+			PatternCount ( fromQueryBegin ; " ORDER " ) ; Position ( fromQueryBegin ; " ORDER " ; 1 ; 1 ) ;
+			PatternCount ( fromQueryBegin ; " GROUP " ) ; Position ( fromQueryBegin ; " GROUP " ; 1 ; 1 ) ;
+			cap
+		)
+	) ;
+	fromQuery = If ( not willReduce ; "" ;
+		Trim ( Left ( fromQueryBegin ; fromQueryEnd ) )
+	) ;
+
+	// remove table dot prefix strings
+	simpleTableName = If ( not willReduce ; "" ;
+		Trim ( MiddleWords (
+			fromQuery ;
+			2 ;
+			cap
+			)
+		)
+	) ;
+	reducedSelectQuery = If ( not willReduce ; "" ;
+		Substitute (
+			paddedQuery ;
+			" " & simpleTableName & "." ;
+			" "
+		)
+	) ;
+
+	// PARSE ANY TABLE ALIASES
+
+	aliasedQuery = @@.alias ( paddedQuery )  ;
+
+	// GATHER AND CLEAN RESULTS
+
+	gatheredQuery = Case (
+		isSimpleSelectQuery ; reducedSelectQuery ;
+		isSelectQuery and not isNestedSelectQuery ; aliasedQuery ;
+		query
+	) ;
+	trimmedQuery = Substitute (
+		gatheredQuery ;
+		[ "     " ; " " ] ; [ "   " ; " " ] ; [ "  " ; " " ] ;
+		[ "¶ " ; ¶ ] ; [ " ¶" ; ¶ ] ;
+		[ tab & " " ; tab ] ; [ " " & tab ; tab ]
+	)
+
+	] ;
+
+trimmedQuery
+
+)
+
+/*・・・・・・・・・・・・・・・・・・・・・・・・
+Copyright (c) Brian Schick, 2013.
+For help, inline tutorial, and open source license info, call this function itself, lke so:
+@ ( "" ; "?" )
+・・・・・・・・・・・・・・・・・・・・・・・・*/

@@ -1,0 +1,55 @@
+// @.sqlExecute ( sqlQuery ; params ; options )
+// note: need to update arguments to match new signature.
+
+Let ( [
+  tab = Char ( 9 ) ; cap = 999 ;
+
+  // PARSE PARAMETERS
+
+  // ensure options passed are space-delimited .
+  options = " " & Substitute (
+    options ;
+    [ tab ; " " ] ;
+    [ ¶ ; " " ]
+  ) ;
+
+  // get passed options. we curently accept 3 possible values:
+  //  - includeHeaders  (shorthand: any word beginning with "h")
+  //  - returnTable  (shorthand: any word beginning with "p")
+  //  - engine:<engine> (doSQL, 2empower, others tbd)
+  includeHeaders = PatternCount ( options ; "includeHeaders" ) or PatternCount ( options ; " h") ;
+  returnTable = PatternCount ( options ; "returnTable" ) or PatternCount ( options ; " t") ;
+
+  argumentList = If ( Right ( argumentLIst ; 1 ) ≠ ¶ ; argumentList ;
+    Left ( argumentList ; Length ( argumentList )-1 )
+  ) ;
+  test = Substitute ( argumentList ; "\"" ; "\\\"" ) ;
+  arguments = Case (
+    not PatternCount ( argumentList ; ¶) ;
+      argumentList ;
+    PatternCount ( argumentList ; "[" ) ;
+      Substitute (argumentList ; ¶; "; " ) ;
+
+    "[" & Substitute  (argumentList ; ¶; "]; [" ) & "]"
+  ) ;
+
+/*  result = ExecuteSQL (
+    sqlQuery ;
+    fieldSeparator ;
+    rowSeparator ;
+    Evaluate ( arguments )
+  )
+*/
+
+result = test
+] ;
+
+result
+
+)
+
+/*・・・・・・・・・・・・・・・・・・・・・・・・
+Copyright (c) Brian Schick, 2013.
+For help, inline tutorial, and open source license info, call this function itself, lke so:
+@ ( "" ; "?" )
+・・・・・・・・・・・・・・・・・・・・・・・・*/
