@@ -300,7 +300,7 @@ List(
 	"—————————————————————————————————————————————";
 	"SUMMARY SO FAR";
 	" ";
-	"We've now seen a good bit of @'s chaining syntax, and gotten a first glance of creating entire queries with it. You may note, though, that the sample queries still aren't as simplified as we'd expect. For one thing, field names are being presented as, for example, \"project.name\", when all we need in a single-table query is the simple \"name\". For another thing, our table alias was simply commented out.";
+	"We've now seen a good bit of @'s chaining syntax, and gotten a first glance of creating entire queries with it. There are a couple of problems, though. Our sample queries still aren't as clean as we'd expect. For one thing, field names are being presented as, for example, \"project.name\", when all we need in a single-table query is the simple \"name\". For another thing, our table alias was simply commented out.";
 	" ";
 	"In the next section, we'll dive into the @.sqlQuery wrapper function, and see how it can help us with this and other query-level issues. To view this, enter:";
 	" ";
