@@ -52,7 +52,7 @@ Left ( arg ; 1 ) = "i" ;  List (
 	"--returns 'hello 123'. Note that @ automatically places single quotes around text values, making them ready for direct use in SQL queries.";
 	" ";
 	"@ ( " & Quote("hello 123") & " ; " & Quote("number") & " )";
-	"--evaluates to 123. When handling numberic values, @ automatically casts the value as a number (in this example, retrieving only the numeric portion of the string passed). Numeric values are correctly returned without quotation, ready for evaluation in SQL expressions.";
+	"--evaluates to 123. When handling numeric values, @ automatically casts the value as a number (in this example, retrieving only the numeric portion of the string passed). Numeric values are correctly returned without quotation, ready for evaluation in SQL expressions.";
 	" ";
 	"Date, time, and timestamp values can also be extracted as desired. As with numeric values, @ casts these and retrieves the requested portion of the value received. By default, these are retuned in native FileMaker format:";
 	" ";
@@ -127,9 +127,9 @@ Left ( arg ; 1 ) = "c" ;  List (
 	"———————————————————————————————";
 	"Once you've mastered the basics, the real power of @ lies in its powerful and highly flexible chainable syntax. While atypical in the FileMaker world, this approach is common in many other environments like Ruby and a number of JavaScript libraries and meta languages. Chainable syntax is powerful, light, and extensive, and particularly well suited to FQ. This ability to overload the params parameter lies at the heart of @'s advanced capabilities.";
 	" ";
-	"The previous help section explained simple uses of @, in which params took a single word argument. As we proceed to more complex uses of @ using chaining, it's worth remembering that the lessongs of the previous section still apply. The first word passed to param will continue to perform the special role of of telling @ how to handle the object or value passed. Everything else we do will build on top of this.";
+	"As we move on to more complex uses of @ using chaining, remember that the lessongs of the previous section still apply. The first word passed to param will continue to perform the special role of of telling @ how to handle the object or value passed. Everything else we do will build on top of this.";
 	" ";
-	"Before devining into specifics, let's take a sneak peek at two short chaining examples:";
+	"Let's start with a sneak peek at two chaining examples:";
 	" ";
 	"@ ( <tbl::fld> ; \"field lower()\") wraps a field in a LOWER function, like this:";
 	"\"LOWER ( tbl.fld )\"";
@@ -237,7 +237,7 @@ Left ( arg ; 1 ) = "c" ;  List (
 	"	projects";
 	" ";
 	"- - - - - - - - - - ";
-	"Now let's add in a bit more completity, with some simple and complex chained functions and a shift operator to push some text to the right too:";
+	"Now let's add in a bit more complexity, with some simple and complex chained functions and a shift operator to push some text to the right too:";
 	" ";
 	List (
 		"List (";
@@ -396,7 +396,7 @@ Left ( arg ; 3 ) = "e" ;  List (
 PatternCount ( argLeft ; "f" ) and Left ( argRight ; 1 )  = "n";  List (
 	"FQL NUMBER FUNCTIONS";
 	"———————————————————————————————";
-
+	"soon… this will give info on available FQL functions and syntax";
 	"———————————————————————————————";
 "");
 
@@ -405,7 +405,7 @@ PatternCount ( argLeft ; "f" ) and
 	( Left ( argRight ; 1 )  = "d" or Left ( argRight ; 2 )  = "ti" ) ;  List (
 	"FQL DATE, TIME, AND TIMESTAMP FUNCTIONS";
 	"———————————————————————————————";
-
+	"soon… this will give info on available FQL functions and syntax";
 	"———————————————————————————————";
 "");
 
@@ -413,7 +413,7 @@ PatternCount ( argLeft ; "f" ) and
 PatternCount ( argLeft ; "f" ) and Left ( argRight ; 1 )  = "t";  List (
 	"FQL TEXT FUNCTIONS";
 	"———————————————————————————————";
-
+	"soon… this will give info on available FQL functions and syntax";
 	"———————————————————————————————";
 "");
 
@@ -421,14 +421,14 @@ PatternCount ( argLeft ; "f" ) and Left ( argRight ; 1 )  = "t";  List (
 PatternCount ( argLeft ; "f" ) and Left ( argRight ; 1 )  = "m";  List (
 	"FQL META AND CONVERSION FUNCTIONS";
 	"———————————————————————————————";
-
+	"soon… this will give info on available FQL functions and syntax";
 	"———————————————————————————————";
 "");
 
 PatternCount ( argLeft ; "f" ) ;  List (
 	"A BRIEF OVERVIEW OF FILEMAKER SQL (FQL)";
 	"———————————————————————————————";
-
+	"soon… this will give a short intro to FileMaker's implementation of SQL";
 	"———————————————————————————————";
 "");
 
