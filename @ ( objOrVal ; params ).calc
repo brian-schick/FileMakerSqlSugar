@@ -66,7 +66,7 @@ Let ( [
   tblName = If (  isObj ;
     @@.reserve ( Left ( objName ; Position ( objName ; "::" ; 1 ; 1 ) - 1 ) ; "" )
   ) ;
-  colName = If (  isObj ;
+  colName = If (  isObj and type="field" ;
     @@.reserve ( Middle ( objName ; Position ( objName ; "::" ; 1 ; 1 ) + 2 ; cap ) ; "" )
   ) ;
 
