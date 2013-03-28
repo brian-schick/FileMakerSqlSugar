@@ -331,19 +331,20 @@ Left ( arg  ; 1 ) = "a" ;  List (
 Left ( arg ; 1 ) = "v" ;  List (
 	"VERSION INFO";
 	"———————————————————————————————";
-	"Version:  0.6     Date:  18 March 2013";
+	"Version:  0.7     Date:  28 March 2013";
 	"Summary:  First beta version released for initial testing";
 	" ";
 	"New Features:";
 	"- Added improved natural language nesting of chained functions";
 	"- Added inline help and documentation";
-	"- Improved @ performance (streamlined use of GetFieldName() )";
-	"- Improved helper function names";
+	"- Improved @ performance (streamlined GetFieldName() and reserved word matching)";
+	"- Made helper function names more transparent";
 	" ";
 	"Bug Fixes:";
 	"- Resolved errors with nested functions";
 	"- Resolves issues with multiple parameter SQL functions";
 	"- Resolved alias parsing errors";
+	"- Improved reserved word capitalization consitency";
 	" ";
 	" ";
 	"VERSION HISTORY";
