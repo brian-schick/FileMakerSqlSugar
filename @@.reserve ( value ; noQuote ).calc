@@ -36,7 +36,7 @@
 Let ( [
 	~val       = Upper ( Trim ( value ) ); // cleaned version of the inbound value
 	~valLeft   = LeftWords ( ~val ; 1 );
-	~isIllegal = Length ( Filter ( ~val ; " .|-*/<>,==~!^()'\"") )
+	~isIllegal = Length ( Filter ( ~val ; " .|-*/<>,=~!^()'\"") )
 				 or not Length ( Filter( Left ( ~valLeft ; 1 ) ; "ABCDEFGHIJKLMNOPQRSTUVWXYZ") );
 
 	~l         = Code ( Left ( ~valLeft ; 1 ) ) - 65;
@@ -178,7 +178,6 @@ Let ( [
 			0
 		)
 ];
-
 	Case (
 		noQuote and ~isReserved ;
 			~val ;
@@ -186,14 +185,10 @@ Let ( [
 		noQuote ;
 			Lower ( ~val ) ;
 			
-		~isReserved ;
-			"\"" & ~val & "\"" ;
-			
-		~isIllegal ;
+		~isReserved or ~isIllegal ;
 			"\"" & ~val & "\"" ;
 
 		// default
 		Lower ( ~val )
 	)
-
 )
