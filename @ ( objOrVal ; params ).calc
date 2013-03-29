@@ -26,7 +26,7 @@
  *
  * NOTE:
  * 		Use @ ( "" ; "?" ) within Data Viewer to read help. The params value uses
- * 		character a space separated list of character values and functions to dynamically
+ * 		a space separated list of character values and functions to dynamically
  * 		build valid SQL.
  *
  * HISTORY:
@@ -62,8 +62,8 @@ Let ( [
 		[ ": " ; ":" ];
 		[ " :" ; ":" ];
 		[ " (" ; "(" ]
-	) ;
-	~params = Substitute (Trim ( ~params ) ; " " ; ¶ );
+	);
+	~params = Substitute ( Trim ( ~params ) ; " " ; ¶ );
 
 	// parse to current and any remaining args (to be passed to helper function)
 	// these get split into left- and right-hand params to ease processing
