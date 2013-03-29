@@ -1,127 +1,203 @@
+/**
+ * =====================================
+ * @ ( objOrVal ; params )
+ *
+ * PURPOSE:
+ * 		Generate a smaller segement of valid SQL code to be used with other segments
+ * 		which are ultimately passed to FileMaker's ExecuteSQL() function.
+ *
+ * RETURNS:
+ * 		Syntactically correct portion of a sequel statement for use within a List()
+ * 		function.
+ *
+ * PARAMETERS:
+ * 		objOrVal = a literal string value or a field reference
+ * 		params = a space separated sequence of valid characters or functions
+ *
+ * EXAMPLES:
+ * 		#Assign (  # ( "name1"; "value1" ) ) //= True, and sets the variable $name1 with value "value1"
+ *
+ * DEPENDENCIES:
+ * 		@@.reserve()
+ * 		@@.param()
+ * 		@@.help()
+ *
+ * NOTE:
+ * 		Use @ ( "" ; "?" ) within Data Viewer to read help
+ *
+ * HISTORY:
+ * 		Released on 2013-03-27 by Brian Schick (creator)
+ *
+ * REFERENCES:
+ * 		none
+ * =====================================
+ */
+
 Let ( [
-  tab = Char ( 9 ) ; cap = 9999 ; delimiter = "<{:}>" ;
+	~tab = Char ( 9 );
+	~cap = 9999;
+	~delimiter = "<{:}>";
 
-  // PARSE PARAMETERS
+	// PARSE PARAMETERS
 
-  // parse space-delimited params values to a standard list.
-  params = Substitute (
-    params ;
-    [ tab ; " " ] ;
-    [ ¶ ; " " ] ;
-    [ "," ; " , " ] ;
-    [ "_" ; " _ " ] ;
-    [ ")" ; " " ] ;
-    [ "(" ; " ( " ] ;
-    [ "            " ; " " ] ;
-    [ "       " ; " " ] ;
-    [ "    " ; " " ] ;
-    [ "   " ; " " ] ;
-    [ "  " ; " " ] ;
-    [ "|" ; ":" ] ;
-    [ ": " ; ":" ] ;
-    [ " :" ; ":" ] ;
-    [ " (" ; "(" ]
-  ) ;
-  params = Substitute (Trim ( params ) ; " " ; ¶ ) ;
+	// parse space-delimited params values to a standard list.
+	~params = Substitute (
+		params;
+		[ ~tab ; " " ];
+		[ ¶ ; " " ];
+		[ "," ; " , " ];
+		[ "_" ; " _ " ];
+		[ ")" ; " " ];
+		[ "(" ; " ( " ];
+		[ "            " ; " " ];
+		[ "       " ; " " ];
+		[ "    " ; " " ];
+		[ "   " ; " " ];
+		[ "  " ; " " ];
+		[ "|" ; ":" ];
+		[ ": " ; ":" ];
+		[ " :" ; ":" ];
+		[ " (" ; "(" ]
+	) ;
+	~params = Substitute (Trim ( ~params ) ; " " ; ¶ );
 
-  // parse to current and any remaining args (to be passed to helper function)
-  // these get split into left- and right-hand params to ease processing
-  arg = GetValue ( params ; 1 ) ;
-  args = MiddleValues ( params ; 2 ; cap ) ;
-  argsBreakpoint = Position ( args ; ">>" ; 1 ; 1 ) ;
-  argsLeft = If ( not argsBreakpoint ; args ;
-    Left ( args ; argsBreakpoint-1 )
-  ) ;
-  argsRight = If ( not argsBreakpoint ; "" ;
-    Middle ( args ; argsBreakpoint+3 ; cap )
-  ) ;
+	// parse to current and any remaining args (to be passed to helper function)
+	// these get split into left- and right-hand params to ease processing
+	~arg = GetValue ( ~params ; 1 );
+	~args = MiddleValues ( ~params ; 2 ; ~cap );
+	~argsBreakpoint = Position ( ~args ; ">>" ; 1 ; 1 );
+	~argsLeft = If ( not ~argsBreakpoint;
+		~args;
+		Left ( ~args ; ~argsBreakpoint - 1 )
+	);
+	~argsRight = If ( not ~argsBreakpoint;
+		"";
+		Middle ( ~args ; ~argsBreakpoint + 3 ; ~cap )
+	);
 
-  // set flag if this is a call for help
-  isHelp = ( IsEmpty ( objOrVal ) and arg = "?" ) ;
+	// set flag if this is a call for help
+	~isHelp = ( IsEmpty ( objOrVal ) and ~arg = "?" );
 
-  // DETERMINE PARAMETER TYPE
+	// DETERMINE PARAMETER TYPE
 
-  // extract object Name
-  objName = GetFieldName ( objOrVal ) ;
-  isObj = WordCount ( objName ) ;
+	// extract object Name
+	~objName = GetFieldName ( objOrVal );
+	~isObj = WordCount ( ~objName );
 
-  // and determine its type
-  type = Case (
-    isObj and Left ( arg ; 1 ) = "t" ; "table" ;
-    isObj ; "field" ;
-    arg = "timeSQL" or arg = "iSQL" ;  "timeSQL" ;
-    arg = "timestampSQL" or arg = "mSQL" ; "timestampSQL" ;
-    arg = "dateSQL" or arg = "dSQL" ; "dateSQL" ;
-    arg = "time" or arg = "i" ; "time" ;
-    arg = "timestamp" or arg = "m" ; "timestamp" ;
-    Left ( arg ; 1 ) = "d" ; "date" ;
-    Left ( arg ; 1 )  = "n" ; "number" ;
-     Left ( arg ; 1 )  = "l" ; "literal" ;
-   "text"
-  ) ;
+	// and determine its type
+	~type = Case (
+		~isObj and Left ( ~arg ; 1 ) = "t";
+			"table";
+		~isObj;
+			"field";
+		~arg = "timeSQL" or ~arg = "iSQL";
+			"timeSQL" ;
+		~arg = "timestampSQL" or ~arg = "mSQL";
+			"timestampSQL" ;
+		~arg = "dateSQL" or ~arg = "dSQL";
+			"dateSQL" ;
+		~arg = "time" or ~arg = "i";
+			"time" ;
+		~arg = "timestamp" or ~arg = "m";
+			"timestamp" ;
+		Left ( ~arg ; 1 ) = "d";
+			"date" ;
+		Left ( ~arg ; 1 ) = "n";
+			"number" ;
+		Left ( ~arg ; 1 ) = "l";
+			"literal";
+		// default
+		"text"
+	);
 
-  // PREPARE RESULTS
+	// PREPARE RESULTS
 
-  // get raw object name and parse SQL table or field name
-  tblName = If (  isObj ;
-    @@.reserve ( Left ( objName ; Position ( objName ; "::" ; 1 ; 1 ) - 1 ) ; "" )
-  ) ;
-  colName = If (  isObj and type="field" ;
-    @@.reserve ( Middle ( objName ; Position ( objName ; "::" ; 1 ; 1 ) + 2 ; cap ) ; "" )
-  ) ;
+	// get raw object name and parse SQL table or field name
+	~tblName = If (  ~isObj;
+		@@.reserve ( Left ( ~objName ; Position ( ~objName ; "::" ; 1 ; 1 ) - 1 ) ; "" )
+	);
+	~colName = If (  ~isObj and ~type="field";
+		@@.reserve ( Middle ( ~objName ; Position ( ~objName ; "::" ; 1 ; 1 ) + 2 ; ~cap ) ; "" )
+	);
 
-  // prep date/time snippets
-  y = If ( not isObj ; Year ( objOrVal ) ) ;
-  mo = If ( not isObj ; Right ( "00" & Month ( objOrVal ) ; 2 ) ) ;
-  d =If ( not isObj ;  Right ( "00" & Day ( objOrVal ) ; 2 ) ) ;
-  h = If ( not isObj ; Hour ( objOrVal ) ) ;
-  h =If ( not isObj ;  If ( not PatternCount ( h ; "pm" ) ; h ; h+12 ) ) ;
-  h = If ( not isObj ; Right ( "00" & Mod ( h ; 24 ) ; 2 ) ) ;
-  mi = If ( not isObj ; Right ( "00" & Minute ( objOrVal ) ; 2 ) ) ;
-  s = If ( not isObj ; Right ( "00" & Seconds ( objOrVal ) ; 2 ) ) ;
+	// prep date/time snippets
+	~y  = If ( not ~isObj; Year ( objOrVal ) );
+	~mo = If ( not ~isObj; Right ( "00" & Month ( objOrVal ) ; 2 ) );
+	~d  = If ( not ~isObj; Right ( "00" & Day ( objOrVal ) ; 2 ) );
+	~h  = If ( not ~isObj; Hour ( objOrVal ) );
+	~h  = If ( not ~isObj; If ( not PatternCount ( ~h ; "pm" ) ; ~h ; ~h + 12 ) );
+	~h  = If ( not ~isObj; Right ( "00" & Mod ( ~h ; 24 ) ; 2 ) );
+	~mi = If ( not ~isObj; Right ( "00" & Minute ( objOrVal ) ; 2 ) );
+	~s  = If ( not ~isObj; Right ( "00" & Seconds ( objOrVal ) ; 2 ) );
 
-  // assemble return value
-  returnValue = Case (
-    isHelp ; @@.help ( args ) ;
-    isObj and objName = "?" ; "<UNKNOWN OBJECT>" ;  // unused::? is still toxic
-    isObj ; tblName & If ( type = "field" ; "." & colName ) ;
-    type = "literal"; objOrVal;
-    type = "date" ; GetAsDate ( objOrVal ) ;
-    type = "dateSql" ; y & "-" & mo & "-" & d ;
-    type = "time" ; GetAsTime ( objOrVal ) ;
-    type = "timeSql" ; h & ":" & mi & ":" & s ;
-    type = "timestamp" ; GetAsTimestamp ( objOrVal ) ;
-    type = "timestampSql" ; y & "-" & mo & "-" & d & " " & h & ":" & mi & ":" & s ;
-    type = "number" ; GetAsNumber ( objOrVal ) ;
-    Substitute ( objOrVal ; "'" ; "" ) ) ;
+	// assemble return value
+	~returnValue = Case (
+		~isHelp;
+			@@.help ( ~args );
 
-  // single-quote text, date, time, and timestamp values
-  returnValue = Case (
-    isObj or type = "number" or type = "literal" ; returnValue ;
-    isHelp ; returnValue ;
-  "'" & returnValue & "'"
-  ) ;
+		~isObj and ~objName = "?";
+			"<UNKNOWN OBJECT>";  // unused::? is still toxic
 
+		~isObj;
+			~tblName & If ( ~type = "field" ; "." & ~colName );
 
-  // PASS REMAINING PARAMETERS TO HELPER FUNCTION
+		~type = "literal";
+			objOrVal;
 
-  // process left-hand args first, then process right-hand args in a separate pass
+		~type = "date";
+			GetAsDate ( objOrVal );
 
-  result = If ( IsEmpty ( argsLeft ) or isHelp ; returnValue ;
-    @@.param ( returnValue ; type ; argsLeft ; "" )
-  ) ;
-  result = If ( IsEmpty ( argsRight ) or isHelp ; result ;
-    @@.param ( result ; type ; argsRight ; 1 )
-  )
+		~type = "dateSql";
+			~y & "-" & ~mo & "-" & ~d;
 
-] ;
+		~type = "time";
+			GetAsTime ( objOrVal );
 
-result
+		~type = "timeSql";
+			~h & ":" & ~mi & ":" & ~s;
+
+		~type = "timestamp";
+			GetAsTimestamp ( objOrVal );
+
+		~type = "timestampSql";
+			~y & "-" & ~mo & "-" & ~d & " " & ~h & ":" & ~mi & ":" & ~s;
+
+		~type = "number";
+			GetAsNumber ( objOrVal );
+
+		// default
+		Substitute ( objOrVal ; "'" ; "" ) // wrap single quotes for text
+	);
+
+	// single-quote text, date, time, and timestamp values
+	~returnValue = Case (
+		~isObj
+		or ~type = "number"
+		or ~type = "literal";
+			~returnValue;
+	
+		~isHelp;
+			~returnValue;
+		
+		// default
+		"'" & ~returnValue & "'"
+	) ;
+
+	// PASS REMAINING PARAMETERS TO HELPER FUNCTION
+
+	// process left-hand args first, then process right-hand args in a separate pass
+	~result = If ( IsEmpty ( ~argsLeft ) or ~isHelp;
+		~returnValue;
+		@@.param ( ~returnValue ; ~type ; ~argsLeft ; "" )
+	);
+	
+	~result = If ( IsEmpty ( ~argsRight ) or ~isHelp;
+		~result;
+		@@.param ( ~result ; ~type ; ~argsRight ; 1 )
+	)
+
+];
+
+	~result
 
 )
-
-/*・・・・・・・・・・・・・・・・・・・・・・・・
-Copyright (c) Brian Schick, 2013.
-For info, help, and open source license info, call this function itself, lke so:
-@ ( "" ; "?" )
-・・・・・・・・・・・・・・・・・・・・・・・・*/
