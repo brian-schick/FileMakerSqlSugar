@@ -30,7 +30,7 @@
  * 		build valid SQL.
  *
  * HISTORY:
- * 		Released on 2013-03-27 by Brian Schick (creator)
+ * 		Released on 2013-03-15 by Brian Schick (creator)
  *
  * REFERENCES:
  * 		none
@@ -92,24 +92,34 @@ Let ( [
 	~type = Case (
 		~isObj and Left ( ~arg ; 1 ) = "t";
 			"table";
+
 		~isObj;
 			"field";
+
 		~arg = "timeSQL" or ~arg = "iSQL";
-			"timeSQL" ;
+			"timeSQL";
+
 		~arg = "timestampSQL" or ~arg = "mSQL";
-			"timestampSQL" ;
+			"timestampSQL";
+
 		~arg = "dateSQL" or ~arg = "dSQL";
-			"dateSQL" ;
+			"dateSQL";
+
 		~arg = "time" or ~arg = "i";
-			"time" ;
+			"time";
+
 		~arg = "timestamp" or ~arg = "m";
-			"timestamp" ;
+			"timestamp";
+
 		Left ( ~arg ; 1 ) = "d";
-			"date" ;
+			"date";
+
 		Left ( ~arg ; 1 ) = "n";
-			"number" ;
+			"number";
+
 		Left ( ~arg ; 1 ) = "l";
 			"literal";
+
 		// default
 		"text"
 	);
