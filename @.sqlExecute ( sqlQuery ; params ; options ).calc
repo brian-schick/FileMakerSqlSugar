@@ -1,55 +1,83 @@
-// @.sqlExecute ( sqlQuery ; params ; options )
-// note: need to update arguments to match new signature.
+/**
+ * =====================================
+ * @.sqlExecute ( sqlQuery ; fieldSeparator ; rowSeparator ; options ; argumentList  )
+ *
+ * PURPOSE:
+ * 		Wrapper function for execution of SQL code. Provides
+ *		for execution by plugin as well as by FileMaker.
+ *
+ * RETURNS:
+ * 		(string) undetermined << @todo: to change
+ *
+ * PARAMETERS:
+ * 		sqlQuery = a valid and supported SQL query
+ * 		params = 
+ * 		options = space delimited list of control options (see notes)
+ *
+ * EXAMPLES:
+ * 		@.sqlExecute ( ) // << needs to be updated
+ *
+ * DEPENDENCIES:
+ * 		none
+ *
+ * NOTE:
+ * 		@todo: listing of accepted options
+ *
+ * HISTORY:
+ * 		Released on 2013-03-15 by Brian Schick (creator)
+ *
+ * REFERENCES:
+ * 		none
+ * =====================================
+ */
 
 Let ( [
-  tab = Char ( 9 ) ; cap = 999 ;
+	~tab = Char ( 9 );
+	~cap = 999;
 
-  // PARSE PARAMETERS
+	// PARSE PARAMETERS
 
-  // ensure options passed are space-delimited .
-  options = " " & Substitute (
-    options ;
-    [ tab ; " " ] ;
-    [ ¶ ; " " ]
-  ) ;
+	// ensure options passed are space-delimited
+	~options = " " & Substitute ( options ;
+						[ ~tab ; " " ] ;
+						[ ¶ ; " " ]
+					 );
 
-  // get passed options. we curently accept 3 possible values:
-  //  - includeHeaders  (shorthand: any word beginning with "h")
-  //  - returnTable  (shorthand: any word beginning with "p")
-  //  - engine:<engine> (doSQL, 2empower, others tbd)
-  includeHeaders = PatternCount ( options ; "includeHeaders" ) or PatternCount ( options ; " h") ;
-  returnTable = PatternCount ( options ; "returnTable" ) or PatternCount ( options ; " t") ;
+	// get passed options. we curently accept 3 possible values:
+	//  - includeHeaders  (shorthand: any word beginning with "h")
+	//  - returnTable  (shorthand: any word beginning with "p")
+	//  - engine:<engine> (doSQL, 2empower, others tbd)
+	~includeHeaders = PatternCount ( ~options ; "includeHeaders" )
+						or PatternCount ( ~options ; " h");
+	~returnTable    = PatternCount ( ~options ; "returnTable" )
+						or PatternCount ( ~options ; " t");
 
-  argumentList = If ( Right ( argumentLIst ; 1 ) ≠ ¶ ; argumentList ;
-    Left ( argumentList ; Length ( argumentList )-1 )
-  ) ;
-  test = Substitute ( argumentList ; "\"" ; "\\\"" ) ;
-  arguments = Case (
-    not PatternCount ( argumentList ; ¶) ;
-      argumentList ;
-    PatternCount ( argumentList ; "[" ) ;
-      Substitute (argumentList ; ¶; "; " ) ;
+	~argumentList   = If ( Right ( argumentList ; 1 ) ≠ ¶ ;
+						argumentList ;
+						Left ( argumentList ; Length ( argumentList ) - 1 )
+					);
+	~test = Substitute ( ~argumentList ; "\"" ; "\\\"" );
+	~arguments = Case (
+					not PatternCount ( ~argumentList ; ¶) ;
+						~argumentList;
 
-    "[" & Substitute  (argumentList ; ¶; "]; [" ) & "]"
-  ) ;
+					PatternCount ( ~argumentList ; "[" ) ;
+						Substitute ( ~argumentList ; ¶; "; " ) ;
 
-/*  result = ExecuteSQL (
-    sqlQuery ;
-    fieldSeparator ;
-    rowSeparator ;
-    Evaluate ( arguments )
-  )
+					// default
+					"[" & Substitute ( ~argumentList ; ¶; "]; [" ) & "]"
+				 );
+
+/*
+	result = ExecuteSQL (
+	sqlQuery ;
+	fieldSeparator ;
+	rowSeparator ;
+	Evaluate ( arguments )
+	)
 */
 
-result = test
+	~result = ~test
 ] ;
-
-result
-
+	~result
 )
-
-/*・・・・・・・・・・・・・・・・・・・・・・・・
-Copyright (c) Brian Schick, 2013.
-For help, inline tutorial, and open source license info, call this function itself, lke so:
-@ ( "" ; "?" )
-・・・・・・・・・・・・・・・・・・・・・・・・*/

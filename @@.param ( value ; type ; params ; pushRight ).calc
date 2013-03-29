@@ -1,128 +1,180 @@
-//@@.param ( value ; type ; params ; pushRight )
+/**
+ * =====================================
+ * @@.param ( value ; type ; params ; pushRight )
+ *
+ * PURPOSE:
+ * 		Helper function for the main @() function.
+ * 		There is no need to call this function directly!
+ *
+ * RETURNS:
+ * 		(string) the modified result of parsing the params list
+ *
+ * PARAMETERS:
+ * 		value = supplied from calling function
+ * 		type = singular value of a predefined enumerated list of possible types
+ * 		params = return delimited list known values or reserved characters
+ * 		pushRight = numerical control value to shift to next value if present
+ *
+ * EXAMPLES:
+ * 		@@.param ( ) // << needs to be updated
+ *
+ * DEPENDENCIES:
+ * 		@@.reserve()
+ *
+ * NOTE:
+ * 		> RECURSIVE FUNTION <
+ * 		Use @ ( "" ; "?" ) within Data Viewer to read help.
+ *
+ * HISTORY:
+ * 		Released on 2013-03-15 by Brian Schick (creator)
+ *
+ * REFERENCES:
+ * 		none
+ * =====================================
+ */
 
 Let ( [
-
-	tab = Char ( 9 ) ; cap = 99999 ; delimiter = "<{:}>" ;
+	~tab = Char ( 9 );
+	~cap = 99999;
+	~delimiter = "<{:}>";
 
 	// extract the current parameter, and remove it from any remaining parameters
-	// to keep params in order as they're unpacked, for right hand params, we get the first value. otheriwse, we get the last
-	pCount = ValueCount ( params ) ;
-	p = Trim ( GetValue ( params ; If ( pushRight ; 1 ; pCount ) ) ) ;
-	pMore = If ( pushRight ; RightValues ( params ; pCount-1 )  ; LeftValues ( params ; pCount - 1 ) ) ;
-	pLeftChar = Left ( p ; 1 ) ; pLeftWord = LeftWords ( p ; 1 ) ;
+	// to keep params in order as they're unpacked, for right hand params we get
+	// the first value, otheriwse, we get the last.
+	~pCount    = ValueCount ( params );
+	~p         = Trim ( GetValue ( params ; If ( pushRight ; 1 ; ~pCount ) ) );
+	~pMore     = If ( pushRight ;
+				 	RightValues ( params ; ~pCount - 1 ) ;
+					LeftValues ( params ; ~pCount - 1 )
+				 );
+	~pLeftChar = Left ( ~p ; 1 );
+	~pLeftWord = LeftWords ( ~p ; 1 );
 
 	// if this is a spacer (left char is an underscore, or an en or em dash)
 	// set a spacer (tab) char for *each* spacer char passed
-	isSpacer = PatternCount ( p ; "_" ) ;
-	p = If ( not isSpacer ; p ;
-		Substitute (
-			Filter ( p ; "_" ) ;
-			"_" ; tab
-		)
-	) ;
-	break = isSpacer ;
+	~isSpacer = PatternCount ( ~p ; "_" );
+	~p = If ( not ~isSpacer ;
+			~p ;
+			Substitute ( Filter ( ~p ; "_" ) ; "_" ; ~tab )
+		 );
+	~break = ~isSpacer;
 
 	// if this is a delimiter (left char is a comma or a semi-colon)
 	// set a single comma and a spacer char for each spacer char passed
-	isDelimiter = ( not break ) and pLeftChar = "," ;
-	p = If ( break or not isDelimiter ; p ;
-		"," & Substitute (
-			Filter ( p ; "_–" ) ;
-			["–" ; tab] ; ["—" ; tab] ; ["_" ; tab ]
-		)
-	) ;
+	~isDelimiter = ( not ~break ) and ~pLeftChar = ",";
+	~p = If ( ~break or not ~isDelimiter ;
+			~p ;
+			"," & Substitute ( Filter ( ~p ; "_–" ) ;
+				["–" ; ~tab] ;
+				["—" ; ~tab] ;
+				["_" ; ~tab ]
+			)
+		  );
 
 	// parse Functions
-	isFunction = ( not break ) and PatternCount ( p ; "(" ) > 0  ;
+	~isFunction = ( not ~break ) and PatternCount ( ~p ; "(" ) > 0;
 
 	// strip ending paren and get position of opening paren
-	p = If ( break or not isFunction ; p ;
-		Substitute (
-			Trim ( p ) ;
-			")" ; ""
-		)
-	) ;
-	pRightPosition = Position ( p ; "(" ; 1 ; 1 ) + 1 ;
+	~p = If ( ~break or not ~isFunction ;
+			~p ;
+			Substitute ( Trim ( ~p ); ")" ; "" )
+		 );
+	~pRightPosition = Position ( ~p ; "(" ; 1 ; 1 ) + 1;
 
 	// extract right portion of function, if any, and replace proxy devider with comma
-	pRight = Trim ( Middle ( p ; pRightPosition ; cap ) ) ;
+	~pRight = Trim ( Middle ( ~p ; ~pRightPosition ; ~cap ) );
 
 	// parse any "as" strings
-	pRight = If ( not ( Left ( pRight ; 3 ) = "as:" or Left ( pRight ; 3 ) = "as|" ) ; pRight ;
-		" as " & MiddleWords	( pRight ; 2 ; cap )
-	) ;
+	~pRight = If ( not ( Left ( ~pRight ; 3 ) = "as:" or Left ( ~pRight ; 3 ) = "as|" ) ;
+			  	~pRight;
+				" as " & MiddleWords ( ~pRight ; 2 ; ~cap )
+			  );
 	// parse any comma substitutions and add comma spacing
-	pRight = Substitute ( pRight ;
-		[ ":" ; "," ] ;
-		[ ";" ; "," ] ;
-		[ "|" ; "," ] ;
+	~pRight = Substitute ( ~pRight ;
+		[ ":" ; "," ];
+		[ ";" ; "," ];
+		[ "|" ; "," ];
 		[ "," ; " , "]
 	) ;
-	isFunctionRight = WordCount ( pRight ) ;
+	~isFunctionRight = WordCount ( ~pRight );
 
 	// extract left portion of function
-	p = If (not isFunction ; p ;
-			Trim ( Upper (
-				Left ( p ; pRightPosition-2 )
-			) )
-	) ;
-	break = break or isFunction ;
+	~p = If ( not ~isFunction ;
+		 	~p ;
+			Trim ( Upper ( Left ( ~p ; ~pRightPosition - 2 ) ) )
+		 );
+
+	~break = ~break or ~isFunction;
 
 	// if this is an alias (if it's first word is "as" or "alias")
 	// extract the alias for separate processing, testing for reserved/illegal alias names
 	// and removing optional :, =, or | assignment operators
-	isAlias = ( not break ) and ( type = "table" or type = "field" ) and ( pLeftWord = "alias" or pLeftWord = "as" ) ;
-	p = If ( break or not isAlias ; p ;
-		Substitute (
-			Trim ( p ) ;
-			[ ":" ; " " ] ; [ "=" ; " " ] ; [ "|" ; " " ]
-		)
-	) ;
-	p = If ( break or not isAlias ; p ;
-		 @@.reserve (
-			MiddleWords ( p ; 2 ; cap ) ;
-			""
-		)
-	) ;
-	break = break or isAlias ;
+	~isAlias = ( not ~break )
+				and ( type = "table" or type = "field" )
+				and ( ~pLeftWord = "alias" or ~pLeftWord = "as" );
+				
+	~p = If ( ~break or not ~isAlias ;
+			~p ;
+			Substitute ( Trim ( ~p ) ;
+				[ ":" ; " " ] ;
+				[ "=" ; " " ] ;
+				[ "|" ; " " ]
+			)
+		 );
+		
+	~p = If ( ~break or not ~isAlias ;
+		 	~p ;
+			@@.reserve ( MiddleWords ( ~p ; 2 ; ~cap ) ; "" )
+		 );
+		
+	~break = ~break or ~isAlias;
 
 	// last, test if this is a reserved word and if so, format it
-	p = If ( break ; p ;
-		@@.reserve ( p ; True )
-	) ;
+	~p = If ( ~break ;
+			~p ;
+			@@.reserve ( ~p ; True )
+		 );
 
 	// now we wrap the value passed in the processed parameter
 	// if this is an alias, store entity and alias in a global
 	// this will ease alias assignment by the outer @query wrapper function
 	// we also add padding, which will be cleaned up by the @query as well
-	pWrapped = Case (
-		isAlias ; value & " /* AS=>" & p & " */ " ;
-		isFunction and  isFunctionRight ; p & " ( " & value & pRight &  " ) " ;
-		isFunction ; p & " ( " & value & " ) " ;
-		not pushRight ; p & " " & value ;
-		value & " " & p & " "
-	) ;
+	~pWrapped = Case (
+					~isAlias ;
+						value & " /* AS=>" & ~p & " */ " ;
+						
+					~isFunction and ~isFunctionRight ;
+						~p & " ( " & value & ~pRight &  " ) " ;
+						
+					~isFunction ;
+						~p & " ( " & value & " ) " ;
+						
+					not pushRight ;
+						~p & " " & value ;
+						
+					// default
+					value & " " & ~p & " "
+				);
 
 	// if no params were received, return the value and exit
 	// if one param was received, return the wrapped value and exit
 	// if the extracted param is empty but others remain, do recursive call, passing unchanged value
 	// otherwise, do recursive call, passing wrapped value for further processing
-	result = Case (
-		IsEmpty ( params ) ; value ;
-		IsEmpty ( pMore ) ; pWrapped ;
-		IsEmpty ( p ) ; @@.param ( value ; type ; pMore ; pushRight ) ;
-		@@.param ( pWrapped ; type ; pMore ; pushRight )
+	~result = Case (
+				IsEmpty ( params ) ;
+					value ;
+					
+				IsEmpty ( ~pMore ) ;
+					~pWrapped ;
+					
+				IsEmpty ( ~p ) ;
+					@@.param ( value ; type ; ~pMore ; pushRight ) ;
+					
+				// default
+				@@.param ( ~pWrapped ; type ; ~pMore ; pushRight )
 	)
+];
 
-
-	] ;
-
-result
+	~result
 
 )
-
-/*・・・・・・・・・・・・・・・・・・・・・・・・
-Copyright (c) Brian Schick, 2013.
-For help, inline tutorial, and open source license info, call this function itself, lke so:
-@ ( "" ; "?" )
-・・・・・・・・・・・・・・・・・・・・・・・・*/
