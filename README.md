@@ -1,6 +1,8 @@
-FileMakerSqlSugar
-=================
+##Welcome to @ : FileMaker SQL Sugar!
+______________________________
 
-FileMaker SQL @
+For a short introduction and overview of @, please visit http://brian-schick.github.com/FileMakerSqlSugar/		
 
-Testing 123
+
+
+	
