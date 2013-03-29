@@ -71,6 +71,16 @@ Left ( arg ; 1 ) = "i" ;  List (
 	"--returns a single-quoted SQL ANSI timestamp, such as '2013-03-10 18:21:35'.";
 	" ";
 	"———————————————————————————————";
+	"VALUE LITERALS";
+	" ";
+	"@ provides for a special value type of literal. This is intended for cases where SQL keywords are to be passed directly into a query, without the normal wrapping in single quotes. For example:";
+	" ";
+	"@ ( \"and\";  \"literal\")";
+	"-- returns the SQL keyword AND without quotation. Although this may seem trivial at first glance, this capability can be very helpful in creating consistent, structured queries. This can be shortened to:";
+	" ";
+		"@ ( \"and\";  \"l\")";
+	" ";
+	"———————————————————————————————";
 	"SYNTACTIC SUGAR FOR OBJECTS";
 	" ";
 	"@ doesn't try to impose a specific style of SQL on developers; in fact, it does everything it can to empower developers to choose whatever style and form that best suits their own approach. One place this is evident is @'s use of synonyms and shortened forms. For objects:";

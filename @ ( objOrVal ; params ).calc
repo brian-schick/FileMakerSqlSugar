@@ -56,7 +56,8 @@ Let ( [
     arg = "timestamp" or arg = "m" ; "timestamp" ;
     Left ( arg ; 1 ) = "d" ; "date" ;
     Left ( arg ; 1 )  = "n" ; "number" ;
-    "text"
+     Left ( arg ; 1 )  = "l" ; "literal" ;
+   "text"
   ) ;
 
   // PREPARE RESULTS
@@ -84,6 +85,7 @@ Let ( [
     isHelp ; @@.help ( args ) ;
     isObj and objName = "?" ; "<UNKNOWN OBJECT>" ;  // unused::? is still toxic
     isObj ; tblName & If ( type = "field" ; "." & colName ) ;
+    type = "literal"; objOrVal;
     type = "date" ; GetAsDate ( objOrVal ) ;
     type = "dateSql" ; y & "-" & mo & "-" & d ;
     type = "time" ; GetAsTime ( objOrVal ) ;
@@ -95,7 +97,7 @@ Let ( [
 
   // single-quote text, date, time, and timestamp values
   returnValue = Case (
-    isObj or type = "number" ; returnValue ;
+    isObj or type = "number" or type = "literal" ; returnValue ;
     isHelp ; returnValue ;
   "'" & returnValue & "'"
   ) ;
