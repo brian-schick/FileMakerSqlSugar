@@ -12,10 +12,12 @@
  *
  * PARAMETERS:
  * 		objOrVal = a literal string value or a field reference
- * 		params = a space separated sequence of valid characters or functions
+ * 		params = a space separated sequence of valid characters or functions (see notes)
  *
  * EXAMPLES:
- * 		#Assign (  # ( "name1"; "value1" ) ) //= True, and sets the variable $name1 with value "value1"
+ * 		@ ( Table::field ; "") // = table.name
+ * 		@ ( Function » Table::wordy name ; "") // = "FUNCTION » TABLE"."wordy name"
+ * 		@ ( "literal string" ; "" ) // = 'literal string'
  *
  * DEPENDENCIES:
  * 		@@.reserve()
@@ -23,7 +25,9 @@
  * 		@@.help()
  *
  * NOTE:
- * 		Use @ ( "" ; "?" ) within Data Viewer to read help
+ * 		Use @ ( "" ; "?" ) within Data Viewer to read help. The params value uses
+ * 		character a space separated list of character values and functions to dynamically
+ * 		build valid SQL.
  *
  * HISTORY:
  * 		Released on 2013-03-27 by Brian Schick (creator)
