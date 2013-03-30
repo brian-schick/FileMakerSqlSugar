@@ -16,14 +16,20 @@
  * 		noQuote = optional boolean toggle to enforce no quoting
  *
  * EXAMPLES:
- * 		@@.reserve ( ) // << needs to be updated
+ * 		@@.reserve ( "join"; 0)  // = "JOIN"
+ * 		@@.reserve ( "join"; 1)  // = JOIN
+ * 		@@.reserve ( "final price"; 0)  // = "final price"
+ * 		@@.reserve ( "description"; 0)  // = description
  *
  * DEPENDENCIES:
  * 		none
  *
  * NOTE:
- * 		Brian needs to explain the logic behind how the Choose is working.
- * 		Use @ ( "" ; "?" ) within Data Viewer to read help.
+ * 		For better performance, we process values by a combination
+ .		of their first letter and a 4-way split of the second letter.
+		These are combined so that, for example, SQL keywords beginning with
+		"A" are assigned ~switch of 0-3, those starting with "B" are 4-7, etc.
+		This keeps the PatternCount expression lean, and greatly speeds execution.
  *
  * HISTORY:
  * 		Released on 2013-03-15 by Brian Schick (creator)
@@ -181,10 +187,10 @@ Let ( [
 	Case (
 		noQuote and ~isReserved ;
 			~val ;
-			
+
 		noQuote ;
 			Lower ( ~val ) ;
-			
+
 		~isReserved or ~isIllegal ;
 			"\"" & ~val & "\"" ;
 

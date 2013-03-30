@@ -112,7 +112,7 @@ Let ( [
 	~isAlias = ( not ~break )
 				and ( type = "table" or type = "field" )
 				and ( ~pLeftWord = "alias" or ~pLeftWord = "as" );
-				
+
 	~p = If ( ~break or not ~isAlias ;
 			~p ;
 			Substitute ( Trim ( ~p ) ;
@@ -121,12 +121,12 @@ Let ( [
 				[ "|" ; " " ]
 			)
 		 );
-		
+
 	~p = If ( ~break or not ~isAlias ;
 		 	~p ;
 			@@.reserve ( MiddleWords ( ~p ; 2 ; ~cap ) ; "" )
 		 );
-		
+
 	~break = ~break or ~isAlias;
 
 	// last, test if this is a reserved word and if so, format it
@@ -142,16 +142,16 @@ Let ( [
 	~pWrapped = Case (
 					~isAlias ;
 						value & " /* AS=>" & ~p & " */ " ;
-						
+
 					~isFunction and ~isFunctionRight ;
 						~p & " ( " & value & ~pRight &  " ) " ;
-						
+
 					~isFunction ;
 						~p & " ( " & value & " ) " ;
-						
+
 					not pushRight ;
 						~p & " " & value ;
-						
+
 					// default
 					value & " " & ~p & " "
 				);
@@ -163,13 +163,13 @@ Let ( [
 	~result = Case (
 				IsEmpty ( params ) ;
 					value ;
-					
+
 				IsEmpty ( ~pMore ) ;
 					~pWrapped ;
-					
+
 				IsEmpty ( ~p ) ;
 					@@.param ( value ; type ; ~pMore ; pushRight ) ;
-					
+
 				// default
 				@@.param ( ~pWrapped ; type ; ~pMore ; pushRight )
 	)

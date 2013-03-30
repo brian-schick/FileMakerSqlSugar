@@ -9,10 +9,12 @@
  * 		(string) help information based inbound argument
  *
  * PARAMETERS:
- * 		args = 
+ * 		args =
  *
  * EXAMPLES:
- * 		@@.help ( ) // << needs to be updated
+ * 		@@.help (""; "?" ) // => displays initial help screen and usage info
+ * 		@@.help (""; "? intro" ) // => displays an intro tutorial
+ * 		@@.help (""; "? fql" ) // => displays an intro to the fql dialect
  *
  * DEPENDENCIES:
  * 		none
@@ -30,7 +32,7 @@
 
 Let ( [
 	~cap = 999;
-	~arg = Trim ( Substitute ( args ; 
+	~arg = Trim ( Substitute ( args ;
 					[ ¶ ; " " ] ;
 					[ "    "; " " ] ;
 					[ "   "; " " ] ;
@@ -356,7 +358,7 @@ Let ( [
 				"CREDITS";
 				"———————————————————————————————";
 				"Author:  Brian Schick.";
-				"Thanks:  Vincenzo Menanno, Jay Gonzales, Todd Geist";
+				"Thanks:  Vincenzo Menanno, Jay Gonzales, Todd Geist, Matt Petrowsky";
 				" ";
 				"COPYRIGHT AND TERMS OF USE";
 				"———————————————————————————————";

@@ -189,10 +189,10 @@ Let ( [
 		or ~type = "number"
 		or ~type = "literal";
 			~returnValue;
-	
+
 		~isHelp;
 			~returnValue;
-		
+
 		// default
 		"'" & ~returnValue & "'"
 	) ;
@@ -204,7 +204,7 @@ Let ( [
 		~returnValue;
 		@@.param ( ~returnValue ; ~type ; ~argsLeft ; "" )
 	);
-	
+
 	~result = If ( IsEmpty ( ~argsRight ) or ~isHelp;
 		~result;
 		@@.param ( ~result ; ~type ; ~argsRight ; 1 )
