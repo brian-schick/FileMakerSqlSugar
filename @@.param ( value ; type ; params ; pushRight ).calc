@@ -68,9 +68,7 @@ Let ( [
 	~p = If ( ~break or not ~isDelimiter ;
 			~p ;
 			"," & Substitute ( Filter ( ~p ; "_–" ) ;
-				["–" ; ~tab] ;
-				["—" ; ~tab] ;
-				["_" ; ~tab ]
+				"_" ; ~tab
 			)
 		  );
 
@@ -92,11 +90,9 @@ Let ( [
 			  	~pRight;
 				" as " & MiddleWords ( ~pRight ; 2 ; ~cap )
 			  );
-	// parse any comma substitutions and add comma spacing
+	// parse comma and space proxies
 	~pRight = Substitute ( ~pRight ;
 		[ "|" ; " " ];
-		[ ";" ; "," ];
-		[ "|" ; "," ];
 		[ "," ; " , "]
 	) ;
 	~isFunctionRight = WordCount ( ~pRight );
@@ -119,9 +115,7 @@ Let ( [
 	~p = If ( ~break or not ~isAlias ;
 			~p ;
 			Substitute ( Trim ( ~p ) ;
-				[ ":" ; " " ] ;
-				[ "=" ; " " ] ;
-				[ "|" ; " " ]
+				"=" ; " "
 			)
 		 );
 
