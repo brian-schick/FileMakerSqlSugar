@@ -16,7 +16,10 @@
  * 		pushRight = numerical control value to shift to next value if present
  *
  * EXAMPLES:
- * 		@@.param ( ) // << needs to be updated
+ * 		@@.param ( "tbl.field" ; "field" ; "trim(¶upper("; "" )
+ *					// = , TRIM ( UPPER ( tbl.field ) )
+ * 		@@.param ( "tbl.field" ; "field" ; ",¶_¶cast(|as|varchar" ; "" )
+ *					// = CAST ( tbl.field as varchar )
  *
  * DEPENDENCIES:
  * 		@@.reserve()
@@ -91,7 +94,7 @@ Let ( [
 			  );
 	// parse any comma substitutions and add comma spacing
 	~pRight = Substitute ( ~pRight ;
-		[ ":" ; "," ];
+		[ "|" ; " " ];
 		[ ";" ; "," ];
 		[ "|" ; "," ];
 		[ "," ; " , "]
