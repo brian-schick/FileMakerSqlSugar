@@ -26,10 +26,10 @@
  *
  * NOTE:
  * 		For better performance, we process values by a combination
- .		of their first letter and a 4-way split of the second letter.
-		These are combined so that, for example, SQL keywords beginning with
-		"A" are assigned ~switch of 0-3, those starting with "B" are 4-7, etc.
-		This keeps the PatternCount expression lean, and greatly speeds execution.
+ *		of their first letter and a 4-way split of the second letter.
+ *		These are combined so that, for example, SQL keywords beginning with
+ *		"A" are assigned ~switch of 0-3, those starting with "B" are 4-7, etc.
+ *		This keeps the PatternCount expression lean, and greatly speeds execution.
  *
  * HISTORY:
  * 		Released on 2013-03-15 by Brian Schick (creator)
