@@ -93,7 +93,7 @@ Let ( [
 	// parse comma and space proxies
 	~pRight = Substitute ( ~pRight ;
 		[ "|" ; " " ];
-		[ "," ; " , "]
+		[ ":" ; " , "]
 	) ;
 	~isFunctionRight = WordCount ( ~pRight );
 

@@ -380,26 +380,25 @@ Left ( ~arg ; 1 ) = "v" ;
 	List (
 		"VERSION INFO";
 		"———————————————————————————————";
-		"Version:  0.7     Date:  28 March 2013";
-		"Summary:  First beta version released for initial testing";
+		"Version:  0.75     Date:  7 April 2013";
+		"Summary:  Second beta version released";
 		" ";
 		"New Features:";
-		"- Added improved natural language nesting of chained functions";
-		"- Added inline help and documentation";
-		"- Improved @ performance (streamlined GetFieldName() and reserved word matching)";
-		"- Made helper function names more transparent";
+		"- New SQL literal handling";
+		"- New left shift operator for better readability";
+		"- Testing and presentation of reserved SQL words improved";
 		" ";
 		"Bug Fixes:";
-		"- Resolved errors with nested functions";
-		"- Resolves issues with multiple parameter SQL functions";
-		"- Resolved alias parsing errors";
-		"- Improved reserved word capitalization consitency";
+		"- Resolved errors with help calls";
 		" ";
 		" ";
 		"VERSION HISTORY";
 		"———————————————————————————————";
-		"Version:  0.5     Date:  5 March 2013";
-		"Summary: Initlal alpha shown at POE Portland 2013. Not released.";
+		"Version:  0.70     Date:  31 March 2013";
+		"Summary: First beta version released for testing.";
+		" ";
+		"Version:  0.50     Date:  5 March 2013";
+		"Summary: Initial alpha shown at POE Portland 2013. Not released.";
 		" ";
 		"———————————————————————————————";
 		"");
@@ -598,7 +597,7 @@ and Left ( ~argRight ; 1 )  = "m" ;
 
 
 PatternCount ( ~argLeft ; "f" )
-and Left ( ~argRight ; 1 )  = "m" ;
+and Left ( ~argRight ; 1 )  = "o" ;
 	List (
 		"OTHER FQL FUNCTIONS";
 		"———————————————————————————————";

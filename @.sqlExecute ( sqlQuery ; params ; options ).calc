@@ -1,6 +1,6 @@
 /**
  * =====================================
- * @.sqlExecute ( sqlQuery ; fieldSeparator ; rowSeparator ; options ; argumentList  )
+ * @.sqlExecute ( sqlQuery ; fieldSeparator ; rowSeparator ; optionList ; argumentList  )
  *
  * PURPOSE:
  * 		Wrapper function for execution of SQL code. Provides
@@ -11,7 +11,7 @@
  *
  * PARAMETERS:
  * 		sqlQuery = a valid and supported SQL query
- * 		params = 
+ * 		params =
  * 		options = space delimited list of control options (see notes)
  *
  * EXAMPLES:
@@ -56,7 +56,6 @@ Let ( [
 						argumentList ;
 						Left ( argumentList ; Length ( argumentList ) - 1 )
 					);
-	~test = Substitute ( ~argumentList ; "\"" ; "\\\"" );
 	~arguments = Case (
 					not PatternCount ( ~argumentList ; ¶) ;
 						~argumentList;
@@ -68,16 +67,17 @@ Let ( [
 					"[" & Substitute ( ~argumentList ; ¶; "]; [" ) & "]"
 				 );
 
-/*
+
 	result = ExecuteSQL (
 	sqlQuery ;
 	fieldSeparator ;
 	rowSeparator ;
 	Evaluate ( arguments )
 	)
-*/
 
-	~result = ~test
+
 ] ;
-	~result
+
+result
+
 )

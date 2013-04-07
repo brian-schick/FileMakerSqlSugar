@@ -40,161 +40,161 @@
  */
 
 Let ( [
-	~val       = Upper ( Trim ( value ) ); // cleaned version of the inbound value
+	~val       = Lower ( Trim ( value ) ); // cleaned version of the inbound value
 	~valLeft   = LeftWords ( ~val ; 1 );
 	~isIllegal = Length ( Filter ( ~val ; " .|-*/<>,=~!^()'\"") )
-				 or not Length ( Filter( Left ( ~valLeft ; 1 ) ; "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ) );
+				 or not Length ( Filter( Left ( ~val ; 1 ) ; "abcdefghijklmnopqrstuvwxyz" ) );
 
-	~l         = Code ( Left ( ~valLeft ; 1 ) ) - 65;
+	~l         = Code ( Left ( ~valLeft ; 1 ) ) - 97;
 	~m         = Code ( Middle ( ~valLeft ; 2 ; 1 ) );
-	~mval      = Case ( ~m < 70 ; 0 ; ~m < 77 ; 1 ; ~m < 83 ; 2 ; 3 ); // break on second letter at F,M,S
+	~mval      = Case ( ~m < 102 ; 0 ; ~m < 109 ; 1 ; ~m < 115 ; 2 ; 3 ); // break on second letter at F,M,S
 	~switch    = ~l * 4 + ~mval;
 	~p         = "|" & ~valLeft & "|";
 
 	~isReserved = Choose( ~switch ;
 			// A
-			PatternCount ( "|ABSOLUTE|ACTION|ADD|" ; ~p );
-			PatternCount ( "|ALL|ALLOCATE|ALTER|" ; ~p );
-			PatternCount ( "|AND|ANY|ARE|AS|ASC|ASSERTION|" ; ~p );
-			PatternCount ( "|AT|AUTHORIZATION|AVG|" ; ~p );
+			PatternCount ( "|absolute|action|add|" ; ~p );
+			PatternCount ( "|all|allocate|alter|" ; ~p );
+			PatternCount ( "|and|any|are|as|asc|assertion|" ; ~p );
+			PatternCount ( "|at|authorization|avg|" ; ~p );
 			// B
-			PatternCount ( "|BEGIN|BETWEEN|" ; ~p );
-			PatternCount ( "|BINARY|BIT|BIT_LENGTH|BLOB|" ; ~p );
-			PatternCount ( "|BOOLEAN|BOTH|" ; ~p );
-			PatternCount ( "|BY|" ; ~p );
+			PatternCount ( "|begin|between|" ; ~p );
+			PatternCount ( "|binary|bit|bit_length|blob|" ; ~p );
+			PatternCount ( "|boolean|both|" ; ~p );
+			PatternCount ( "|by|" ; ~p );
 			// C
-			PatternCount ( "|CASCADE|CASCADED|CASE|CAST|CATALOG|" ; ~p );
-			PatternCount ( "|CHAPTER|CHAR|CHARACTER|CHARACTER_LENGTH|CHAR_LENGTH|CHECK|CHR|CLOSE|" ; ~p );
-			PatternCount ( "|COALESCE|COLLATE|COLLATION|COLUMN|COMMIT|CONNECT|CONNECTION|CONSTRAINT|CONSTRAINTS|CONTINUE|CONVERT|CORRESPONDING|COUNT|CREATE|CROSS|" ; ~p );
-			PatternCount ( "|CURDATE|CURRENT|CURRENT_DATE|CURRENT_TIME|CURRENT_TIMESTAMP|CURRENT_USER|CURSOR|CURTIME|CURTIMESTAMP|" ; ~p );
+			PatternCount ( "|cascade|cascaded|case|cast|catalog|" ; ~p );
+			PatternCount ( "|chapter|char|character|character_length|char_length|check|chr|close|" ; ~p );
+			PatternCount ( "|coalesce|collate|collation|column|commit|connect|connection|constraint|constraints|continue|convert|corresponding|count|create|cross|" ; ~p );
+			PatternCount ( "|curdate|current|current_date|current_time|current_timestamp|current_user|cursor|curtime|curtimestamp|" ; ~p );
 			// D
-			PatternCount ( "|DATE|DATEVAL|DAY|DAYNAME|DAYOFWEEK|DEALLOCATE|DEC|DECIMAL|DECLARE|DEFAULT|DEFERRABLE|DEFERRED|DELETE|DESC|DESCRIBE|DESCRIPTOR|" ; ~p );
-			PatternCount ( "|DIAGNOSTICS|DISCONNECT|DISTINCT|" ; ~p );
-			PatternCount ( "|DOMAIN|DOUBLE|DROP|" ; ~p );
+			PatternCount ( "|date|dateval|day|dayname|dayofweek|deallocate|dec|decimal|declare|default|deferrable|deferred|delete|desc|describe|descriptor|" ; ~p );
+			PatternCount ( "|diagnostics|disconnect|distinct|" ; ~p );
+			PatternCount ( "|domain|double|drop|" ; ~p );
 			0;
 			// E
 			0;
-			PatternCount ( "|ELSE|" ; ~p );
-			PatternCount ( "|END|END_EXEC|ESCAPE|" ; ~p );
-			PatternCount ( "|EVERY|EXCEPT|EXCEPTION|EXEC|EXECUTE|EXISTS|EXTERNAL|EXTRACT|" ; ~p );
+			PatternCount ( "|else|" ; ~p );
+			PatternCount ( "|end|end_exec|escape|" ; ~p );
+			PatternCount ( "|every|except|exception|exec|execute|exists|external|extract|" ; ~p );
 			// F
-			PatternCount ( "|FALSE|FETCH|" ; ~p );
-			PatternCount ( "|FIRST|FLOAT|" ; ~p );
-			PatternCount ( "|FOR|FOREIGN|FOUND|FROM|" ; ~p );
-			PatternCount ( "|FULL|" ; ~p );
+			PatternCount ( "|false|fetch|" ; ~p );
+			PatternCount ( "|first|float|" ; ~p );
+			PatternCount ( "|for|foreign|found|from|" ; ~p );
+			PatternCount ( "|full|" ; ~p );
 			// G
-			PatternCount ( "|GET|" ; ~p );
-			PatternCount ( "|GLOBAL|" ; ~p );
-			PatternCount ( "|GO|GOTO|GRANT|GROUP|" ; ~p );
+			PatternCount ( "|get|" ; ~p );
+			PatternCount ( "|global|" ; ~p );
+			PatternCount ( "|go|goto|grant|group|" ; ~p );
 			0;
 			// H
-			PatternCount ( "|HAVING|" ; ~p );
+			PatternCount ( "|having|" ; ~p );
 			0;
-			PatternCount ( "|HOUR|" ; ~p );
+			PatternCount ( "|hour|" ; ~p );
 			0;
 			// I
-			PatternCount ( "|IDENTITY|" ; ~p );
+			PatternCount ( "|identity|" ; ~p );
 			0
-			PatternCount ( "|IMMEDIATE|IN|INDEX|INDICATOR|INITIALLY|INNER|INPUT|INSENSITIVE|INSERT|INT|INTEGER|INTERSECT|INTERVAL|INTO|IS|ISOLATION|" ; ~p );
+			PatternCount ( "|immediate|in|index|indicator|initially|inner|input|insensitive|insert|int|integer|intersect|interval|into|is|isolation|" ; ~p );
 			0;
 			// J
 			0;
 			0;
-			PatternCount ( "|JOIN|" ; ~p );
+			PatternCount ( "|join|" ; ~p );
 			0;
 			// K
-			PatternCount ( "|KEY|" ; ~p );
+			PatternCount ( "|key|" ; ~p );
 			0;
 			0;
 			0;
 			// L
-			PatternCount ( "|LANGUAGE|LAST|LEADING|LEFT|LENGTH|LEVEL|" ; ~p );
-			PatternCount ( "|LIKE|" ; ~p );
-			PatternCount ( "|LOCAL|LONGVARBINARY|LOWER|" ; ~p );
-			PatternCount ( "|LTRIM|" ; ~p );
+			PatternCount ( "|language|last|leading|left|length|level|" ; ~p );
+			PatternCount ( "|like|" ; ~p );
+			PatternCount ( "|local|longvarbinary|lower|" ; ~p );
+			PatternCount ( "|ltrim|" ; ~p );
 			// M
-			PatternCount ( "|MATCH|MAX|" ; ~p );
-			PatternCount ( "|MIN|MINUTE|" ; ~p );
-			PatternCount ( "|MODULE|MONTH|MONTHNAME|" ; ~p );
+			PatternCount ( "|match|max|" ; ~p );
+			PatternCount ( "|min|minute|" ; ~p );
+			PatternCount ( "|module|month|monthname|" ; ~p );
 			0;
 			// N
-			PatternCount ( "|NAMES|NATIONAL|NATURAL|NCHAR|NEXT|" ; ~p );
-			PatternCount ( "|NO|NOT|" ; ~p );
+			PatternCount ( "|names|national|natural|nchar|next|" ; ~p );
+			PatternCount ( "|no|not|" ; ~p );
 			0;
-			PatternCount ( "|NULL|NULLIF|NUMERIC|NUMVAL|" ; ~p );
+			PatternCount ( "|null|nullif|numeric|numval|" ; ~p );
 			// O
-			PatternCount ( "|OCTET_LENGTH|" ; ~p );
-			PatternCount ( "|OF|" ; ~p );
-			PatternCount ( "|ON|ONLY|OPEN|OPTION|OR|ORDER|" ; ~p );
-			PatternCount ( "|OUTER|OUTPUT|OVERLAPS|" ; ~p );
+			PatternCount ( "|octet_length|" ; ~p );
+			PatternCount ( "|of|" ; ~p );
+			PatternCount ( "|on|only|open|option|or|order|" ; ~p );
+			PatternCount ( "|outer|output|overlaps|" ; ~p );
 			// P
-			PatternCount ( "|PAD|PART|PARTIAL|" ; ~p );
+			PatternCount ( "|pad|part|partial|" ; ~p );
 			0;
-			PatternCount ( "|POSITION|PRECISION|PREPARE|PRESERVE|PRIMARY|PRIOR|PRIVILEGES|PROCEDURE|" ; ~p );
-			PatternCount ( "|PUBLIC|" ; ~p );
+			PatternCount ( "|position|precision|prepare|preserve|primary|prior|privileges|procedure|" ; ~p );
+			PatternCount ( "|public|" ; ~p );
 			// Q
 			0;
 			0;
 			0;
 			0;
 			// R
-			PatternCount ( "|READ|REAL|REFERENCES|RELATIVE|RESTRICT|REVOKE|" ; ~p );
-			PatternCount ( "|RIGHT|" ; ~p );
-			PatternCount ( "|ROLLBACK|ROUND|ROWID|ROWS|" ; ~p );
-			PatternCount ( "|RTRIM|" ; ~p );
+			PatternCount ( "|read|real|references|relative|restrict|revoke|" ; ~p );
+			PatternCount ( "|right|" ; ~p );
+			PatternCount ( "|rollback|round|rowid|rows|" ; ~p );
+			PatternCount ( "|rtrim|" ; ~p );
 			// S
-			PatternCount ( "|SCHEMA|SCROLL|SECOND|SECTION|SELECT|SESSION|SESSION_USER|SET|" ; ~p );
-			PatternCount ( "|SIZE|" ; ~p );
-			PatternCount ( "|SMALLINT|SOME|SPACE|SQL|SQLCODE|SQLERROR|SQLSTATE|" ; ~p );
-			PatternCount ( "|STANDARDS|STRVAL|SUBSTRING|SUM|SUPPORTED|SYSTEM_USER|" ; ~p );
+			PatternCount ( "|schema|scroll|second|section|select|session|session_user|set|" ; ~p );
+			PatternCount ( "|size|" ; ~p );
+			PatternCount ( "|smallint|some|space|sql|sqlcode|sqlerror|sqlstate|" ; ~p );
+			PatternCount ( "|standards|strval|substring|sum|supported|system_user|" ; ~p );
 			// T
-			PatternCount ( "|TABLE|TEMPORARY|" ; ~p );
-			PatternCount ( "|THEN|TIME|TIMESTAMP|TIMESTAMPVAL|TIMEVAL|TIMEZONE_HOUR|TIMEZONE_MINUTE|" ; ~p );
-			PatternCount ( "|TO|TODAY|TRAILING|TRANSACTION|TRANSLATE|TRANSLATION|TRIM|TRUE|" ; ~p );
+			PatternCount ( "|table|temporary|" ; ~p );
+			PatternCount ( "|then|time|timestamp|timestampval|timeval|timezone_hour|timezone_minute|" ; ~p );
+			PatternCount ( "|to|today|trailing|transaction|translate|translation|trim|true|" ; ~p );
 			0;
 			// U
 			0;
 			0;
-			PatternCount ( "|UNION|UNIQUE|UNKNOWN|UPDATE|UPPER|USAGE|USER|USERNAME|USING|" ; ~p );
+			PatternCount ( "|union|unique|unknown|update|upper|usage|user|username|using|" ; ~p );
 			0;
 			// V
-			PatternCount ( "|VALUE|VALUES|VARBINARY|VARCHAR|VARYING|" ; ~p );
-			PatternCount ( "|VIEW|" ; ~p );
+			PatternCount ( "|value|values|varbinary|varchar|varying|" ; ~p );
+			PatternCount ( "|view|" ; ~p );
 			0;
 			0;
 			// W
 			0;
-			PatternCount ( "|WHEN|WHENEVER|WHERE|WITH|" ; ~p );
-			PatternCount ( "|WORK|" ; ~p );
-			PatternCount ( "|WRITE|" ; ~p );
+			PatternCount ( "|when|whenever|where|with|" ; ~p );
+			PatternCount ( "|work|" ; ~p );
+			PatternCount ( "|write|" ; ~p );
 			// X
 			0;
 			0;
 			0;
 			0;
 			// Y
-			PatternCount ( "|YEAR|" ; ~p );
+			PatternCount ( "|year|" ; ~p );
 			0;
 			0;
 			0;
 			// Z
 			0;
 			0;
-			PatternCount ( "|ZONE|" ; ~p );
+			PatternCount ( "|zone|" ; ~p );
 			0
 		)
 ];
 	Case (
 		noQuote and ~isReserved ;
-			~val ;
+			upper ( ~val ) ;
 
 		noQuote ;
-			Lower ( ~val ) ;
+			~val ;
 
 		~isReserved or ~isIllegal ;
 			"\"" & ~val & "\"" ;
 
 		// default
-		Lower ( ~val )
+		~val
 	)
 )
