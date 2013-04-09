@@ -48,7 +48,7 @@ Case (
 Left ( ~arg ; 1 ) = "i" ;
 	List (
 	"AN INTRODUCTION TO @";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"@ (pronounced \"at\") is a FileMaker power SQL tool that sweetens creating and maintaining FileMaker SQL. @ is designed to help developers quickly craft robust, readable, elegant FileMaker SQL (FQL). For those new to SQL, Seed Code's excellent SQL Explorer is highly recommended. Think of @ as power steering: It won't steer your car for you, but it will help make driving more effortless and fun, and let you focus on the road instead the mechanics of driving.";
 	" ";
 	"@ is designed to focus on the building blocks of SQL queries: the fields, tables, values, and SQL operators that make up any SQL query. @ makes it easy to get, modify, and combine these query elements like LEGO blocks. This makes writing SQL queries light and flexible.";
@@ -60,7 +60,7 @@ Left ( ~arg ; 1 ) = "i" ;
 	" ";
 	"@'s' second \"params\" parameter takes a text string informing @ how to parse the object or value passed. Later, in the \"Chaining\" section of help, we'll see that params is also overloaded, and the basic functionality we'll discuss here is just the tip of the iceberg. But first things first...";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"BASIC USE WITH OBJECTS:";
 	" ";
 	"@'s first and most important function is easing the task of referencing data objects in FileMaker SQL. In FQL this basic task presents a challenge: On one hand, fields and tables should always be wrapped in a GetFieldName() function to ensure that renaming tables or fields can't break our queries. But doing this creates a great deal of visual clutter, making queries difficult to create and even harder to read and maintain.";
@@ -75,7 +75,7 @@ Left ( ~arg ; 1 ) = "i" ;
 	" ";
 	"@ also compares each table and field referenced to reserved SQL keywords, and tests for multi-word names or other strings that while valid in FileMaker may not be valid SQL names. In any of these cases, @ will automatically double quote these object names, making them safe for use in FQL queries without any need for additional testing.";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"BASIC USE WITH VALUES";
 	" ";
 	"@ makes it as easy to reference values as data objects. Even better, @'s syntax is completely parallel for both object and value use.  In the case of values, @'s overloaded objOrVal parameter accepts the value, and its params arg now takes an initial argument to inform @ how the value received is to be treated. Some examples:";
@@ -104,7 +104,7 @@ Left ( ~arg ; 1 ) = "i" ;
 	"@ ( Get ( CurrentTimestamp ) ; \"timestampSQL\" )";
 	"--returns a single-quoted SQL ANSI timestamp, such as '2013-03-10 18:21:35'.";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"VALUE LITERALS";
 	" ";
 	"@ provides for a special value type of literal. This is intended for cases where SQL keywords are to be passed directly into a query, without the normal wrapping in single quotes. For example:";
@@ -114,7 +114,7 @@ Left ( ~arg ; 1 ) = "i" ;
 	" ";
 		"@ ( \"and\";  \"l\")";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"SYNTACTIC SUGAR FOR OBJECTS";
 	" ";
 	"@ doesn't try to impose a specific style of SQL on developers; in fact, it does everything it can to empower developers to choose whatever style and form that best suits their own approach. One place this is evident is @'s use of synonyms and shortened forms. For objects:";
@@ -137,7 +137,7 @@ Left ( ~arg ; 1 ) = "i" ;
 	" ";
 	"@ ( <tbl::fld> ; \"\" )";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"SYNTACTIC SUGAR FOR VALUES";
 	" ";
 	"@ brings this same approach to values. For values, standard type parameters can be shortened by using the FileMaker field type equivalent:";
@@ -155,21 +155,21 @@ Left ( ~arg ; 1 ) = "i" ;
 	" ";
 	"If params is left empty, @ will treat the value as a text string.";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"SUMMARY SO FAR";
 	" ";
 	"So far, we've explored the basic functions of @. The fun starts in the next section, where we'll dive into use of @'s advanced chaining features, and introduce the real power of @. To view this section, enter:";
 	" ";
 	"@ ( \"\"; \"? chaining\" )";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"");
 
 
 Left ( ~arg ; 1 ) = "c" ;
 	List (
 	"CHAINING PARAMS";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"Once you've mastered the basics, the real power of @ lies in its powerful and highly flexible chainable syntax. While atypical in the FileMaker world, this approach is common in many other environments like Ruby and a number of JavaScript libraries and meta languages. Chainable syntax is powerful, light, and extensive, and particularly well suited to FQ. This ability to overload the params parameter lies at the heart of @'s advanced capabilities.";
 	" ";
 	"As we move on to more complex uses of @ using chaining, remember that the lessongs of the previous section still apply. The first word passed to param will continue to perform the special role of of telling @ how to handle the object or value passed. Everything else we do will build on top of this.";
@@ -182,7 +182,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	"@ ( <tbl::fld> ; \"table inner join >> as:t on\") prepends and appends SQL to the table name:";
 	"\"INNER JOIN <table> AS t ON\"";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"CHAINING BASICS:";
 	" ";
 	"@ recognizes that as we construct SQL queries, we typically want to accomplish 3 tasks:";
@@ -203,12 +203,12 @@ Left ( ~arg ; 1 ) = "c" ;
 	" ";
 	"- SQL functions are denoted by parens, such as \"lower()\". Function items are exempt from left/right placement, and always wrap a query object. For example, @ ( <object> ; \"field trim()\") becomes \"TRIM ( <fld> )\".";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"MORE SUGAR";
 	" ";
 	"Because even a simple query can contain several objects, and thus will invoke @ many times, even small savings in redundant syntax can make a big different in how easy it is to write and read. Again, @ offers several tools to help developers streamline their chainable SQL to their simplest, most readable form.";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"THE DOT SHORTHAND:";
 	" ";
 	"One example of this is the dot shorthand. If a param chain begins with a dot, @ will cast the object or value to its default type. For example, ";
@@ -219,7 +219,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	"@ ( <val> ; \"field upper()\") may be shortened to ";
 	"@ ( <val> ; \". upper()\")  ";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"SPACERS AND DELIMITERS:";
 	" ";
 	"One of @'s more subtle but essential goals is to help developers create SQL queries that are readable both as they're entered, but also after they're evaluatated. To aid in this, @ provides a spacer shorthand (\"_\") and a delimiter shorthand (\",\"). So, for example::";
@@ -229,7 +229,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	" ";
 	"This is especially useful and important in creating consistently delimited and indented queries, and can help make otherwise unreadable queries very easy to visually parse.";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"FUNCTION CHAINING:";
 	" ";
 	"It's often useful to combine multiple SQL functions in combination in a query snippet. @ makes this very easy to do, and allows 2 forms:";
@@ -237,7 +237,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	"@ ( <tbl::fld> ; \". lower(trim())\") will both evaluate to:";
 	"\"LOWER ( TRIM ( tbl.fld ) )\"";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"COMPLEX FUNCTIONS:";
 	" ";
 	"Many SQL functions simply wrap an object, like LOWER() and TRIM(). Others, like CAST() and SUBSTRING(), require one or more additional parameters in addition to the primary object. @ provides 2 types of advanced parameter proxies. For function that require comma-separeted params, use a colon separator, like this:";
@@ -250,7 +250,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	"@ ( <object> ; \". cast(|as|varchar)\" will evaluate to:";
 	"\"CAST ( <object> as varchar )\"";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"TABLE AND FIELD ALIASES:";
 	" ";
 	"As our SQL becomes more advanced, it's often helpful to add table and/or field aliases. @ provides a similar syntax used for complex functions:";
@@ -261,7 +261,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	"Note that @ by itself apply this alias, and instead packages the alias in a formatted comment. In the next help section, we'll see how the query-level function @.sqlQuery will detect aliases wrapped like this and apply them throughout the query.";
 
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"CARE FOR SOME FREE SAMPLES?";
 	" ";
 	"If this seems abstract, don't worry. A few examples should help make this clear. Let's start with a basic query that shows basic @'s type shortcuts, and some left-hand padding and delimiting:";
@@ -344,7 +344,7 @@ Left ( ~arg ; 1 ) = "c" ;
 	"HAVING";
 	"	SUM ( projects.\"order price\" )  >1500";
 	" ";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"SUMMARY SO FAR";
 	" ";
 	"We've now seen a good bit of @'s chaining syntax, and gotten a first glance of creating entire queries with it. There are a couple of problems, though. Our sample queries still aren't as clean as we'd expect. For one thing, field names are being presented as, for example, \"project.name\", when all we need in a single-table query is the simple \"name\". For another thing, our table alias was simply commented out.";
@@ -352,19 +352,19 @@ Left ( ~arg ; 1 ) = "c" ;
 	"In the next section, we'll dive into the @.sqlQuery wrapper function, and see how it can help us with this and other query-level issues. To view this, enter:";
 	" ";
 	"@ ( \"\"; \"? query\" )";
-	" ";	"———————————————————————————————";
+	" ";	"——————————————————————————";
 	"");
 
 
 Left ( ~arg ; 1 ) = "a" ;
 	List (
 		"CREDITS";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"Author:  Brian Schick.";
 		"Thanks:  Vincenzo Menanno, Jay Gonzales, Todd Geist, Matt Petrowsky";
 		" ";
 		"COPYRIGHT AND TERMS OF USE";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"Copyright 2013, Brian Schick, Beezwax Datatools, Inc." ;
 		" ";
 		"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:";
@@ -372,14 +372,14 @@ Left ( ~arg ; 1 ) = "a" ;
 		"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.";
 		" ";
 		"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
 Left ( ~arg ; 1 ) = "v" ;
 	List (
 		"VERSION INFO";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"Version:  0.75     Date:  7 April 2013";
 		"Summary:  Second beta version released";
 		" ";
@@ -393,21 +393,21 @@ Left ( ~arg ; 1 ) = "v" ;
 		" ";
 		" ";
 		"VERSION HISTORY";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"Version:  0.70     Date:  31 March 2013";
 		"Summary: First beta version released for testing.";
 		" ";
 		"Version:  0.50     Date:  5 March 2013";
 		"Summary: Initial alpha shown at POE Portland 2013. Not released.";
 		" ";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
 Left ( ~arg  ; 1 ) = "q" ;
 	List (
 		"THE @.SQLQUERY WRAPPER FUNCTION";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"Overview:";
 		"The @.sqlQuery function is an optional wrapper function for FQL queries using @. It normalizes and enhances these queries, and adds query-level parsing.";
 		" ";
@@ -424,14 +424,14 @@ Left ( ~arg  ; 1 ) = "q" ;
 		"- Scans queries for table aliases wrapped by upstream @ calls. If found, these are unpacked, and the alias replaces the raw table name throughout the query.";
 
 		" ";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
 Left ( ~arg ; 3 ) = "e" ;
 	List (
 		"THE @.SQLEXECUTE PROXY FUNCTION";
-		"———————————————————————————————";
+		"——————————————————————————";
 		" ";
 		"**Not yet implemented in this version.**" ;
 		" ";
@@ -442,7 +442,7 @@ Left ( ~arg ; 3 ) = "e" ;
 		"- Optionally include Column titles. This will automatically detect column aliases used in the SQL query.";
 		" ";
 		"- Cast results as HTML tables, with or without column title. This will enable display of results directly in a web viewer.";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
@@ -450,7 +450,7 @@ PatternCount ( ~argLeft ; "f" )
 and Left ( ~argRight ; 1 )  = "n";
 	List (
 		"FQL NUMBER FUNCTIONS";
-		"———————————————————————————————";
+		"——————————————————————————";
 		" ";
 		"The FQL dialect contains several numeric functions for manipulating live data as it's retrieved by a query. In general, these functions closely mirror functions available in FileMaker itself. However, as with other FQL functions, be aware that names often differ from their native FileMaker counterparts. The following functions are known to work:";
 		" ";
@@ -476,7 +476,7 @@ and Left ( ~argRight ; 1 )  = "n";
 		"	RADIANS ( <number> )";
 		"	SIGN ( <number> ) -- returns 1 or -1";
 		"	";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
@@ -484,7 +484,7 @@ PatternCount ( ~argLeft ; "f" )
 and ( Left ( ~argRight ; 1 )  = "d" or Left ( ~argRight ; 2 )  = "ti" ) ;
 	List (
 	"FQL DATE, TIME, AND TIMESTAMP FUNCTIONS";
-	"———————————————————————————————";
+	"——————————————————————————";
 		"	";
 		"FileMaker SQL offers a large number of date, time, and timestamp functions. As elsewhere, expect these to closely mirror native FileMaker functions, but to have SQL-specific names.";
 		"	";
@@ -511,7 +511,7 @@ and ( Left ( ~argRight ; 1 )  = "d" or Left ( ~argRight ; 2 )  = "ti" ) ;
 		"	TODAY";
 		"	DATE";
 		"	";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"");
 
 
@@ -519,7 +519,7 @@ PatternCount ( ~argLeft ; "f" )
 and Left ( ~argRight ; 1 )  = "t" ;
 	List (
 	"FQL TEXT FUNCTIONS";
-	"———————————————————————————————";
+	"——————————————————————————";
 		"	";
 		"	";
 		"	LOWER ( <string> )";
@@ -539,7 +539,7 @@ and Left ( ~argRight ; 1 )  = "t" ;
 		"	";
 		"	CHR ( <number> )  -- equivalent to native \"Char()\" function";
 		"	";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"");
 
 
@@ -547,7 +547,7 @@ PatternCount ( ~argLeft ; "f" )
 and Left ( ~argRight ; 1 )  = "a" ;
 	List (
 		"FQL AGGREGATE FUNCTIONS";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"	";
 		"FQL has several useful aggregate functions. These are typically common to both native FileMaker and SQL. Once again, be sure you're using the exact FQL name for the desired function.";
 		"	";
@@ -557,7 +557,7 @@ and Left ( ~argRight ; 1 )  = "a" ;
 		"	AVG(<field>)";
 		"	SUM(<field>)";
 		"	";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
@@ -565,7 +565,7 @@ PatternCount ( ~argLeft ; "f" )
 and Left ( ~argRight ; 1 )  = "m" ;
 	List (
 		"FQL META AND CONVERSION FUNCTIONS";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"	";
 		"FQL includes support for SQL case statements. These are similar in structure, but syntactically different, from native FileMaker Case structures.";
 		"	";
@@ -592,7 +592,7 @@ and Left ( ~argRight ; 1 )  = "m" ;
 		"	";
 		"	Example: \"SELECT * FROM FILEMAKER_TABLES\"";
 		"	";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
@@ -600,7 +600,7 @@ PatternCount ( ~argLeft ; "f" )
 and Left ( ~argRight ; 1 )  = "o" ;
 	List (
 		"OTHER FQL FUNCTIONS";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"	";
 		"Finally, a few assorted functions that don't fit into any category…";
 		"	";
@@ -610,14 +610,14 @@ and Left ( ~argRight ; 1 )  = "o" ;
 		"	";
 		"	ROWID -- equivalent to Get ( RecordID )";
 		"	";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 
 PatternCount ( ~argLeft ; "f" ) ;
 	List (
 		"A BRIEF OVERVIEW OF FILEMAKER SQL (FQL)";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"	";
 		"FileMaker SQL (FQL) is a dialect of industry-standard SQL. ";
 		"	";
@@ -636,13 +636,13 @@ PatternCount ( ~argLeft ; "f" ) ;
 		"- @ ( \"\"; \"? fql meta\" ) » FQL casting and meta functions";
 		"- @ ( \"\"; \"? fql other\" ) » other FQL functions";
 		"	";
-		"———————————————————————————————";
+		"——————————————————————————";
 		"");
 
 // default
 List (
 	"WELCOME TO @: FILEMAKER SQL SUGAR!";
-	"———————————————————————————————";
+	"——————————————————————————";
 	"@ offers contextual help. These commands are available:";
 	" ";
 	"- @ ( \"\"; \"?\" ) » general help (this screen)";
@@ -667,7 +667,7 @@ List (
 	" ";
 	"FQL help may be shortened to \"fql\" plus the first letter.";
 	"For example:  @ ( \"\"; \"? fql n\" ) shows FQL number function help." ;
-	"———————————————————————————————";
+	"——————————————————————————";
 	"")
 
 )

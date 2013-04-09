@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>groupInfo</key>
+	<dict>
+		<key>expandAfterMode</key>
+		<integer>1</integer>
+		<key>groupName</key>
+		<string>@</string>
+	</dict>
+	<key>snippetsTE2</key>
+	<array>
+		<dict>
+			<key>abbreviation</key>
+			<string>@w</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-04-09T02:34:06Z</date>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@where</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T03:02:06Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T02:42:59Z</date>
+			<key>plainText</key>
+			<string>"WHERE" ;	%|
+</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>0</integer>
+			<key>uuidString</key>
+			<string>28436193-71C9-404C-BE6A-9EBE1BC0320A</string>
+		</dict>
+		<dict>
+			<key>abbreviation</key>
+			<string>@h</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-04-09T02:34:06Z</date>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@having</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T02:53:34Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T02:43:02Z</date>
+			<key>plainText</key>
+			<string>"HAVING" ;	%|
+</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>0</integer>
+			<key>uuidString</key>
+			<string>07073D28-0A2E-42DE-858C-FCCEEE5D022B</string>
+		</dict>
+		<dict>
+			<key>abbreviation</key>
+			<string>@o</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-04-09T02:33:13Z</date>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@order by</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T03:01:57Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T02:43:05Z</date>
+			<key>plainText</key>
+			<string>"ORDER BY" ;	%|
+</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>0</integer>
+			<key>uuidString</key>
+			<string>69CCAE74-51C1-40F6-B335-0D00C2B8DEC4</string>
+		</dict>
+		<dict>
+			<key>abbreviation</key>
+			<string>@g</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-04-09T02:33:13Z</date>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@group by</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T02:53:38Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T02:43:07Z</date>
+			<key>plainText</key>
+			<string>"GROUP BY" ;	%|
+</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>0</integer>
+			<key>uuidString</key>
+			<string>D6020E33-5014-46AC-B6BE-D79CF9646EB9</string>
+		</dict>
+		<dict>
+			<key>abbreviation</key>
+			<string>@l</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-02-18T05:33:39Z</date>
+			<key>extraInfo</key>
+			<dict/>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@list</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T03:01:51Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T05:09:11Z</date>
+			<key>plainText</key>
+			<string>@.sqlQuery ( List ("SELECT" ;	"FROM" ;	%|		""))</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>15</integer>
+			<key>uuidString</key>
+			<string>808EEB42-08F7-49AC-8FB1-6A0B5742D1D2</string>
+		</dict>
+		<dict>
+			<key>abbreviation</key>
+			<string>@..</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-03-19T03:08:02Z</date>
+			<key>extraInfo</key>
+			<dict/>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@;</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T02:46:45Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T05:09:11Z</date>
+			<key>plainText</key>
+			<string>@ ( %| ; "" ) 
+</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>17</integer>
+			<key>uuidString</key>
+			<string>5D87445A-26EA-41DB-BA55-0B484654FD50</string>
+		</dict>
+		<dict>
+			<key>abbreviation</key>
+			<string>@;</string>
+			<key>abbreviationMode</key>
+			<integer>0</integer>
+			<key>creationDate</key>
+			<date>2013-03-19T03:08:02Z</date>
+			<key>extraInfo</key>
+			<dict/>
+			<key>flags</key>
+			<integer>0</integer>
+			<key>label</key>
+			<string>@</string>
+			<key>lastUsed</key>
+			<date>2013-04-09T02:56:42Z</date>
+			<key>modificationDate</key>
+			<date>2013-04-09T05:09:11Z</date>
+			<key>plainText</key>
+			<string>@ ( %| ; "" ) ;
+	</string>
+			<key>snippetType</key>
+			<integer>0</integer>
+			<key>useCount</key>
+			<integer>19</integer>
+			<key>uuidString</key>
+			<string>A56F048D-D2EE-4992-9BED-1F4398649E98</string>
+		</dict>
+	</array>
+</dict>
+</plist>
