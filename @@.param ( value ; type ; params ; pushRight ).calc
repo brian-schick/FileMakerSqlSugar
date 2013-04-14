@@ -75,11 +75,16 @@ Let ( [
 	// parse Functions
 	~isFunction = ( not ~break ) and PatternCount ( ~p ; "(" ) > 0;
 
-	// strip ending paren and get position of opening paren
+	// strip ending paren and reinsert underscores for sql functions
 	~p = If ( ~break or not ~isFunction ;
 			~p ;
-			Substitute ( Trim ( ~p ); ")" ; "" )
+			Substitute ( Trim ( ~p );
+				[ ")" ; "" ]
+//				[ "filemaker}" ; "filemaker_" ];
+//				[ "current}" ; "current_" ]
+			)
 		 );
+	// get position of opening paren
 	~pRightPosition = Position ( ~p ; "(" ; 1 ; 1 ) + 1;
 
 	// extract right portion of function, if any, and replace proxy devider with comma

@@ -47,6 +47,8 @@ Let ( [
 	// parse space-delimited params values to a standard list.
 	~params = Substitute (
 		params;
+		[ "filemaker_" ; "filemaker}" ];
+		[ "current_" ; "current}" ];
 		[ ~tab ; " " ];
 		[ ¶ ; " " ];
 		[ "," ; " , " ];
@@ -223,6 +225,12 @@ Let ( [
 
 ];
 
-	~result
+//	~result
+
+	Substitute (
+		~result ;
+		[ "FILEMAKER}" ; "FILEMAKER_" ];
+		[ "CURRENT}" ; "CURRENT_" ]
+	)
 
 )
