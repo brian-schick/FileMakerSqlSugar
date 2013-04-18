@@ -185,16 +185,18 @@ Let ( [
 		)
 ];
 	Case (
+		// unquoted reserved values are returned in upper case
 		noQuote and ~isReserved ;
-			upper ( ~val ) ;
+			Upper ( ~val ) ;
 
+		// otherwise, unquoted values are returned without modification (important for searching)
 		noQuote ;
-			~val ;
-
+			value ;
+		// reserved & illegal values are double quoted so they'll work with queries
 		~isReserved or ~isIllegal ;
 			"\"" & ~val & "\"" ;
 
-		// default
+		// default: otherwise, we return the cleaned, lowercase value
 		~val
 	)
 )
